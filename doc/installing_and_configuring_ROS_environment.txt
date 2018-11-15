@@ -1,0 +1,19 @@
+1. install ROS:
+
+2. managing your environment:
+	If your are ever having problems finding or using your ROS packages make sure that you have your environment properly setup. A good way to check is to ensure that environment variables like ROS_ROOT and ROS_PACKAGE_PATH are set:
+
+$ printenv | grep ROS
+
+$ source /opt/ros/<distro>/setup.bash
+
+3. Create a ROS Workspace:
+
+$ mkdir -p ~/catkin_ws/src
+$ cd ~/catkin_ws
+$ catkin_make
+$ source devel/setup.bash
+
+To make sure your workspace is properly overlayed by the setup script, make sure ROS_PACKAGE_PATH environment varibale includes the directory you're in.
+$ echo $ROS_PACKAGE_PATH
+/home/youruser/catkin_ws/src:/opt/ros/kinetic/share

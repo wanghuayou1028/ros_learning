@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/nvidia/SLAM/ros/ros_learning/catkin_ws/devel/setup.sh
