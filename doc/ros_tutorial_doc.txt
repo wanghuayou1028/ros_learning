@@ -1,3 +1,4 @@
+Tutorial 1: install and config ROS environment
 1. install ROS:
 
 2. managing your environment:
@@ -17,3 +18,13 @@ $ source devel/setup.bash
 To make sure your workspace is properly overlayed by the setup script, make sure ROS_PACKAGE_PATH environment varibale includes the directory you're in.
 $ echo $ROS_PACKAGE_PATH
 /home/youruser/catkin_ws/src:/opt/ros/kinetic/share
+
+
+Tutorial 2: navigating the ROS filesystem
+Packages: Packages are the software organization unit of ROS code. Each package can contain libraries, executables, scripts, or other artifacts.
+Manifests(package.xml): A manifest is a description of a package. It servers to define depencencies between packages and to capture meta information about the package like version, maintainer, license, etc...
+
+Filesystem Tools:
+1. rospack find [package_name]
+2. roscd [locationname[/subdir]]
+3. rosls [locationname[/subdir]]
