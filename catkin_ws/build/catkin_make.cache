@@ -1,2 +1,0 @@
-beginner_tutorials
--DCATKIN_DEVEL_PREFIX=/home/nvidia/SLAM/ros/ros_learning/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/nvidia/SLAM/ros/ros_learning/catkin_ws/install -G Unix Makefiles

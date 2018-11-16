@@ -1,1 +1,0 @@
-nvidia@tegra-ubuntu.2456:946688447
