@@ -28,3 +28,8 @@ Filesystem Tools:
 1. rospack find [package_name]
 2. roscd [locationname[/subdir]]
 3. rosls [locationname[/subdir]]
+
+
+Tutorial 3: creating a ROS package
+1. catkin_create_pkg <package_name> [depend1] [depend2] [depend3]
+2. first-order dependencies: rospack depends1 <package_name>
