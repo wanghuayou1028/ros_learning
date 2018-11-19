@@ -110,4 +110,9 @@ Totorial 8. using rqt_console and roslaunch
 3. roslaunch: roslaunch [package] [filename.launch];
 
 
+Tutorial 9. using rosed
+rosed is used to directly edit a file within a package by using the package name rather then having to type the entire path to the package.
+	rosed [package_name] [filename]
+
+
 
