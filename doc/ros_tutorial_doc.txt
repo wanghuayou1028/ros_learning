@@ -75,4 +75,32 @@ Tutorial 6. understanding ROS topics
 4. rostopic pub [topic] [msg_type] [args]
 5. rosrun rqt_plot rqt_plot;
 
+Turotial 7. understanding ROS services and parameters
+1. Services are another way that nodes can communicate with each other. Services allow nodes to send a request and receive a response;
+2. using rosservice:
+	rosserice can easily attach to ROS's client/service framework with services. rosservice has many commands that can be used on topics, as shown bellow:
+	rosservice list: print information about active services;
+	rosservice call: call the service with the provided args;
+	rosservice type: print service type;
+	rosservice find: find services by service type;
+	rosservice uri: print service ROSRPC uri;
+	rosservice type [service]: rosservice type /clear -> std_srvs/Empty;
+	rosservice call [service] [args]: rosservice call /clear;
+	rosservice type /spawn | rossrv show:
+	rosservice call /spawn 2 2 0.2 "";
+3. using rosparam
+	rosparam allows to strore and manipulate data on the ROS parameter server. 
+	rosparam set: set parameter;
+	rosparam get: get parameter;
+	rosparam load: load parameters from file;
+	rosparam dump: dump parameters to file;
+	rosparam delete: delete parameter;
+	rosparam list: list parameter names;
+usage:
+	rosparam dump [file_name] [namespace];
+	rosparam load [file_name] [namespace];
+	rosparam dump params.yaml: write all the parameters to the file params.yaml;
+	rosparam load params.yaml copy
+	rosparam get /copy/background_b -> 255
+
  
