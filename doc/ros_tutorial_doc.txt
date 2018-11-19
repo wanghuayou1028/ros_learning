@@ -115,4 +115,49 @@ rosed is used to directly edit a file within a package by using the package name
 	rosed [package_name] [filename]
 
 
+Tutorial 10. creating a ROS msg and srv
+1. introduction to msg and srv
+	msg: msg files are simple text files that describe the fields of a ROS message. They are used to generate source code for messages in different languages;
+	srv: an srv file describes a service. It is composed of two parts: a request and a response;
+	Header: the header contains a timestamp and coordinate frame information that are commonly used in ROS.
+2. using msg
+$ roscd beginner_tutorials
+$ mkdir msg
+$ echo "int64 num" > msg/Num.msg
+Open package.xml, and add:
+	<build_depend>message_generation</build_depend>
+	<exec_depend>message_runtime</exec_depend>
+Open CMakeLists.txt:
+	find_package(catkin REQUIRED COMPONENTS
+	  roscpp
+	  rospy
+	  std_msgs
+	  message_generation
+	)
+	catkin_package(
+	  ...
+	  CATKIN_DEPENDS message_rumtime ..
+	  ...)
+	add_message_files(
+	  FILES
+	  Num.msg
+	)
+	generate_messages(
+	  DEPENDENCIES
+	  std_msgs
+	)
+3. using rosmsg
+$ rosmsg show beginner_tutorials/Num / rosmsg show Num
+4. using srv
+$ roscd beginner_tutorials
+$ mkdir srv
+$ roscp rospy_tutorials AddTwoInts.srv srv/AddTwoInts.srv
+	add_service_files(
+	  FILES
+	  AddTwoInts.srv
+	)
+5. using rossrv
+$ rossrv show <service type>
+$ rossrv show beginner_tutorials/AddTwoInts
+
 
