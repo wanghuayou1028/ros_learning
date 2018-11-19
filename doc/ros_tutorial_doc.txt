@@ -103,4 +103,11 @@ usage:
 	rosparam load params.yaml copy
 	rosparam get /copy/background_b -> 255
 
- 
+
+Totorial 8. using rqt_console and roslaunch
+1. rqt_console attaches to ROS's logging framework to display output from node.
+2. rqt_logger_level allows us to change the verbosity level(DEBUG, WARN, INFO, and ERROR) of nodes as they run.
+3. roslaunch: roslaunch [package] [filename.launch];
+
+
+
