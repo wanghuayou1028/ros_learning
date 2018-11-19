@@ -62,3 +62,17 @@ usage: rosrun [package_name] [node_name]
 	roscore = ros+core: master(provides name service for ROS) + rosout(stdout/stderr) + parameter server(parameter server will be introduced later).
 
 
+Tutorial 6. understanding ROS topics
+1. rosrun rqt_graph rqt_graph;
+2. rostopic -h:
+	rostopic bw: display bandwidth used by topic;
+	rostopic echo: print messages to screen;
+	rostopic hz: display publishing rate of topic;
+	rostopic lsit: print information about active topics;
+	rostopic pub: publish data to topic;
+	rostopic type: print topic type.
+3. rosmsg: rosmsg show: show information about a ros message;
+4. rostopic pub [topic] [msg_type] [args]
+5. rosrun rqt_plot rqt_plot;
+
+ 
