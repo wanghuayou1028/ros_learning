@@ -160,4 +160,13 @@ $ roscp rospy_tutorials AddTwoInts.srv srv/AddTwoInts.srv
 $ rossrv show <service type>
 $ rossrv show beginner_tutorials/AddTwoInts
 
-
+Tutorial 17. recording and playing back data
+1. recording all published topics
+$ mkdir ~/bagfiles
+$ cd ~/bagfiles
+$ rosbag record -a
+2. examining and playing the bag file
+$ rosbag info <your bagfile>
+$ rosbag play <your bagfile>
+3. recoding a subset of the data
+$ rosbag record -O subset /turtle1/cmd_vel /turtle1/pose
