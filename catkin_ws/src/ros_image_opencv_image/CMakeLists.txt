@@ -207,3 +207,9 @@ include_directories(
 
 add_executable(image_converter src/image_converter.cpp)
 target_link_libraries(image_converter ${catkin_LIBRARIES} ${OpenCV_LIBS})
+
+add_executable(image_transport_publisher src/image_transport_publisher.cpp)
+target_link_libraries(image_transport_publisher ${catkin_LIBRARIES} ${OpenCV_LIBS})
+
+add_executable(image_transport_subscriber src/image_transport_subscriber.cpp)
+target_link_libraries(image_transport_subscriber ${catkin_LIBRARIES} ${OpenCV_LIBS})
