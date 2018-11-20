@@ -1,0 +1,9 @@
+Tutorial 1. Markers: Sending basic shapes
+1. create a package
+$ catkin_create_pkg using_markers roscpp visualization_msgs
+2. Running the code
+$ rosrun using_markers basic_shapes
+$ rosrun rviz rviz 
+$ rosrun tf static_transform_publisher 0 0 0 0 0 0 1 map my_frame 10
+
+

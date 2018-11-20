@@ -1,0 +1,9 @@
+Bug 1. Rviz fixed frame [map] does not exist:
+Solution: The issue is that you do not have a world frame in your /tf tree. The solution is having a publisher for the fixed frame attached to the grid that describes your frame relative to it. This means using the quaternion/euler-angles rviz can tranform the coordinate system from the fixed one into your frame. This is sets up a publisher that tells rviz where to put the fixed world frame.
+$ rosrun tf static_transform_publisher 0 0 0 0 0 0 1 map my_frame 10
+The one is necessary as its the quaternion identity 0 0 0 1.
+The doc says this:
+$ static_transform_publisher x y z qx qy qz qw frame_id child_frame_id period_in_ms;
+$ static_transform_publisher x y z yaw pitch roll frame_id child_frame_id period_in_ms;
+
+reference : https://answers.ros.org/question/195962/rviz-fixed-frame-world-does-not-exist/
