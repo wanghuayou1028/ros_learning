@@ -1,0 +1,26 @@
+Tutorial 1. Introduction to tf 
+	This tutorial will give you a good idea of what tf can do for you. It shows off some of the tf power in a multi-robot example using turtlesim. This also introduces using tf_echo, view_frames, rqt_tf_tree, and rviz.
+1. Set up the demo
+$ sudo apt-get install ros-kinetic-ros-tutorials ros-kinetic-geometry-tutorials ros-kinetic-rviz ros-kinetic-rosbash ros-kinetic-rqt-tf-tree;
+2. Running the demo
+$ roslaunch turtle_tf turtle_tf_demo.launch
+$ roslaunch turtlesim turtle_teleop_key
+3. What is Happening?
+	This demo is using the tf library to create three coordinate frames: a world frame, a turtle1 frame, and a turtle2 frame. This tutorial uses a tf broadcaster to publish the turtle coordinate frames and a tf listener to compute the difference in the turtle frames and move one turtle to follow the other.
+4. tf Tools
+    a. Using view_frames
+	view_frames creates a diagram of the frames being broadcast by tf over ROS.
+	$ rosrun tf view_frames
+	$ evince frames.pdf
+    b. Using rqt_tf_tree
+	$ rosrun rqt_tf_tree rqt_tf_tree
+    c. Using tf_echo
+	tf_echo reports the transform between any two frames broadcast over ROS.
+	usage:
+	    rosrun tf tf_echo [reference_frame] [target_frame]
+	$ rosrun tf tf_echo turtle1 turtle2
+5. rviz and tf 
+	rviz is a visualization tool that is useful for examining tf frames. Let's look at our turtle frames using rviz. Let's start rviz with the turtle_tf configuration file using the -d option for rviz:
+	$ rosrun rviz rviz -d rospack find turtle_rf /rviz/turtle_rviz.rviz
+
+
