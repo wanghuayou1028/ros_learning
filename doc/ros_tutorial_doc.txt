@@ -170,3 +170,8 @@ $ rosbag info <your bagfile>
 $ rosbag play <your bagfile>
 3. recoding a subset of the data
 $ rosbag record -O subset /turtle1/cmd_vel /turtle1/pose
+
+Medium Level Tutorial 1. Managing System dependencies
+usage: rosdep install [package]
+$ rosdep install turtlesim -> All required rosdeps installed successfully
+
