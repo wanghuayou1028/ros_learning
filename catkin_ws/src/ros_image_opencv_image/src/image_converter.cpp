@@ -1,3 +1,4 @@
+#include <iostream>
 #include <ros/ros.h>
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
@@ -19,7 +20,7 @@ public:
     : it_(nh_)
   {
     // Subscrive to input video feed and publish output video feed
-    image_sub_ = it_.subscribe("/camera/image_raw", 1,
+    image_sub_ = it_.subscribe("/zed/rgb/image_raw_color", 1,
       &ImageConverter::imageCb, this);
     image_pub_ = it_.advertise("/image_converter/output_video", 1);
 
@@ -43,7 +44,13 @@ public:
       ROS_ERROR("cv_bridge exception: %s", e.what());
       return;
     }
-
+    
+    // cout the length and width of the image
+    std::cout << "image length: " << cv_ptr->image.cols << std::endl;
+    std::cout << "image width: " << cv_ptr->image.rows << std::endl;
+    std::cout << "image channels: " << cv_ptr->image.channels() << std::endl;
+    std::cout << "image type: " << cv_ptr->image.type() << std::endl;
+    
     // Draw an example circle on the video stream
     if (cv_ptr->image.rows > 60 && cv_ptr->image.cols > 60)
       cv::circle(cv_ptr->image, cv::Point(50, 50), 10, CV_RGB(255,0,0));

@@ -110,10 +110,10 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-   INCLUDE_DIRS include
+#   INCLUDE_DIRS include
    LIBRARIES ros_image_opencv_image
    CATKIN_DEPENDS cv_bridge image_transport roscpp rospy sensor_msgs std_msgs
-   DEPENDS system_lib
+#   DEPENDS system_lib
 )
 
 ###########
