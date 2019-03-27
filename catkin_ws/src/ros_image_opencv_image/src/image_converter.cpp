@@ -1,4 +1,7 @@
 #include <iostream>
+#include <string>
+#include <sstream>
+#include <fstream>
 #include <ros/ros.h>
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
@@ -6,7 +9,11 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
+using namespace std;
+
 static const std::string OPENCV_WINDOW = "Image window";
+//static long long static_count = 0;
+string image_name;
 
 class ImageConverter
 {
@@ -20,7 +27,7 @@ public:
     : it_(nh_)
   {
     // Subscrive to input video feed and publish output video feed
-    image_sub_ = it_.subscribe("/zed/rgb/image_raw_color", 1,
+    image_sub_ = it_.subscribe("/zed/left/image_rect_color", 10,
       &ImageConverter::imageCb, this);
     image_pub_ = it_.advertise("/image_converter/output_video", 1);
 
@@ -50,6 +57,22 @@ public:
     std::cout << "image width: " << cv_ptr->image.rows << std::endl;
     std::cout << "image channels: " << cv_ptr->image.channels() << std::endl;
     std::cout << "image type: " << cv_ptr->image.type() << std::endl;
+    
+    cout << "image timestamp: " << cv_ptr->header.stamp << endl;
+    
+//    ostringstream os;
+//    os << static_count;
+//    istringstream is(os.str());
+//    is >> image_name;
+//    static_count++;
+    string tmp;
+    ostringstream os;
+    os << cv_ptr->header.stamp;
+    istringstream is(os.str());
+    is >> tmp;
+    image_name = tmp.substr(0,17);
+    
+    cv::imwrite(image_name + ".jpg", cv_ptr->image);
     
     // Draw an example circle on the video stream
     if (cv_ptr->image.rows > 60 && cv_ptr->image.cols > 60)
