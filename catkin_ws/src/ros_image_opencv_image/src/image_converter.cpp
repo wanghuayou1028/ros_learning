@@ -13,23 +13,27 @@ using namespace std;
 
 static const std::string OPENCV_WINDOW = "Image window";
 //static long long static_count = 0;
-string image_name;
+string rgb_image_name;
+string depth_image_name;
 
 class ImageConverter
 {
   ros::NodeHandle nh_;
   image_transport::ImageTransport it_;
-  image_transport::Subscriber image_sub_;
-  image_transport::Publisher image_pub_;
+  image_transport::Subscriber image_sub_rgb, image_sub_depth;
+  image_transport::Publisher image_pub_rgb;
 
 public:
   ImageConverter()
     : it_(nh_)
   {
     // Subscrive to input video feed and publish output video feed
-    image_sub_ = it_.subscribe("/zed/left/image_rect_color", 10,
-      &ImageConverter::imageCb, this);
-    image_pub_ = it_.advertise("/image_converter/output_video", 1);
+    image_sub_rgb = it_.subscribe("/zed/rgb/image_raw_color", 1,
+      &ImageConverter::imageCbRgb, this);
+    image_sub_depth = it_.subscribe("/zed/depth/depth_registered", 1,
+      &ImageConverter::imageCbDepth, this);
+    
+//    image_pub_rgb = it_.advertise("/image_converter/output_video", 1);
 
     cv::namedWindow(OPENCV_WINDOW);
   }
@@ -39,7 +43,7 @@ public:
     cv::destroyWindow(OPENCV_WINDOW);
   }
 
-  void imageCb(const sensor_msgs::ImageConstPtr& msg)
+  void imageCbRgb(const sensor_msgs::ImageConstPtr& msg)
   {
     cv_bridge::CvImagePtr cv_ptr;
     try
@@ -63,27 +67,83 @@ public:
 //    ostringstream os;
 //    os << static_count;
 //    istringstream is(os.str());
-//    is >> image_name;
+//    is >> rgb_image_name;
 //    static_count++;
+    
+    // set image timestamp as filename
+    // rgb image name
     string tmp;
     ostringstream os;
     os << cv_ptr->header.stamp;
     istringstream is(os.str());
     is >> tmp;
-    image_name = tmp.substr(0,17);
+    rgb_image_name = tmp.substr(0,17);
     
-    cv::imwrite(image_name + ".jpg", cv_ptr->image);
+    // save rgb image
+    cv::imwrite("/home/nvidia/SLAM/uav_dataset/dataset1/rgb/" + rgb_image_name + ".jpg", cv_ptr->image);
+        
+//    // Draw an example circle on the video stream
+//    if (cv_ptr->image.rows > 60 && cv_ptr->image.cols > 60)
+//      cv::circle(cv_ptr->image, cv::Point(50, 50), 10, CV_RGB(255,0,0));
+//
+//    // Update GUI Window
+//    cv::imshow(OPENCV_WINDOW, cv_ptr->image);
+//    cv::waitKey(3);
+//
+//    // Output modified video stream
+//    image_pub_rgb.publish(cv_ptr->toImageMsg());
+  }
+  
+  void imageCbDepth(const sensor_msgs::ImageConstPtr& msg)
+  {
+    cv_bridge::CvImagePtr cv_depth_ptr;
+    try
+    {
+//      cv_depth_ptr = cv_bridge::toCvCopy(msg,sensor_msgs::image_encodings::BGR8); // There is a bug for depth image ???
+      cv_depth_ptr = cv_bridge::toCvCopy(msg);
+    }
+    catch (cv_bridge::Exception& e)
+    {
+      ROS_ERROR("cv_bridge exception: %s", e.what());
+      return;
+    }
     
+    // cout the length and width of the image
+    std::cout << "image length: " << cv_depth_ptr->image.cols << std::endl;
+    std::cout << "image width: " << cv_depth_ptr->image.rows << std::endl;
+    std::cout << "image channels: " << cv_depth_ptr->image.channels() << std::endl;
+    std::cout << "image type: " << cv_depth_ptr->image.type() << std::endl;
+    
+    cout << "image timestamp: " << cv_depth_ptr->header.stamp << endl;
+    
+//    ostringstream os;
+//    os << static_count;
+//    istringstream is(os.str());
+//    is >> rgb_image_name;
+//    static_count++;
+    
+    // set image timestamp as filename
+    // rgb image name
+    string tmp;
+    ostringstream os;
+    os << cv_depth_ptr->header.stamp;
+    istringstream is(os.str());
+    is >> tmp;
+    depth_image_name = tmp.substr(0,17);
+    
+    // save rgb image
+    cv::imwrite("/home/nvidia/SLAM/uav_dataset/dataset1/depth/" + depth_image_name + ".jpg", cv_depth_ptr->image);
+        
     // Draw an example circle on the video stream
-    if (cv_ptr->image.rows > 60 && cv_ptr->image.cols > 60)
-      cv::circle(cv_ptr->image, cv::Point(50, 50), 10, CV_RGB(255,0,0));
+//    if (cv_ptr->image.rows > 60 && cv_ptr->image.cols > 60)
+//      cv::circle(cv_ptr->image, cv::Point(50, 50), 10, CV_RGB(255,0,0));
 
     // Update GUI Window
-    cv::imshow(OPENCV_WINDOW, cv_ptr->image);
-    cv::waitKey(3);
+//    cv::imshow(OPENCV_WINDOW, cv_ptr->image);
+//    cv::waitKey(3);
 
     // Output modified video stream
-    image_pub_.publish(cv_ptr->toImageMsg());
+//    image_pub_rgb.publish(cv_ptr->toImageMsg());
   }
 };
 
