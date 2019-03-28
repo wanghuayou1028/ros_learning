@@ -22,6 +22,10 @@ class ImageConverter
   image_transport::ImageTransport it_;
   image_transport::Subscriber image_sub_rgb, image_sub_depth;
   image_transport::Publisher image_pub_rgb;
+  
+  // ofstream define
+  ofstream ofstream_rgb;
+  ofstream ofstream_depth;
 
 public:
   ImageConverter()
@@ -32,15 +36,38 @@ public:
       &ImageConverter::imageCbRgb, this);
     image_sub_depth = it_.subscribe("/zed/depth/depth_registered", 1,
       &ImageConverter::imageCbDepth, this);
+      
+    ofstream_rgb.open("/home/nvidia/SLAM/uav_dataset/dataset1/rgb.txt");
+    if(ofstream_rgb.fail())
+    {
+        cout << "could not open rgb.txt file! " << endl;
+//        return -1; /// !!! wrong !!! could not return a value from a constructor
+    }
+    
+    ofstream_rgb << "# color images" << endl;
+    ofstream_rgb << "# file: 'dataset1.bag'" << endl;
+    ofstream_rgb << "# timestamp filename" << endl;
+    
+    ofstream_depth.open("/home/nvidia/SLAM/uav_dataset/dataset1/depth.txt");
+    if(ofstream_depth.fail())
+    {
+        cout << "could not open depth.txt file! " << endl;
+    }
+    
+    ofstream_depth << "# depth images" << endl;
+    ofstream_depth << "# file: 'dataset1.bag'" << endl;
+    ofstream_depth << "# timestamp filename" << endl;
     
 //    image_pub_rgb = it_.advertise("/image_converter/output_video", 1);
 
-    cv::namedWindow(OPENCV_WINDOW);
+//    cv::namedWindow(OPENCV_WINDOW);
   }
 
   ~ImageConverter()
   {
-    cv::destroyWindow(OPENCV_WINDOW);
+//    cv::destroyWindow(OPENCV_WINDOW);
+      ofstream_rgb.close();
+      ofstream_depth.close();
   }
 
   void imageCbRgb(const sensor_msgs::ImageConstPtr& msg)
@@ -79,8 +106,10 @@ public:
     is >> tmp;
     rgb_image_name = tmp.substr(0,17);
     
+    ofstream_rgb << rgb_image_name << " " << "rgb/" + rgb_image_name + ".png" << endl;
+    
     // save rgb image
-    cv::imwrite("/home/nvidia/SLAM/uav_dataset/dataset1/rgb/" + rgb_image_name + ".jpg", cv_ptr->image);
+    cv::imwrite("/home/nvidia/SLAM/uav_dataset/dataset1/rgb/" + rgb_image_name + ".png", cv_ptr->image);
         
 //    // Draw an example circle on the video stream
 //    if (cv_ptr->image.rows > 60 && cv_ptr->image.cols > 60)
@@ -131,8 +160,10 @@ public:
     is >> tmp;
     depth_image_name = tmp.substr(0,17);
     
+    ofstream_depth << depth_image_name << " " << "depth/" + depth_image_name + ".png" << endl;
+
     // save rgb image
-    cv::imwrite("/home/nvidia/SLAM/uav_dataset/dataset1/depth/" + depth_image_name + ".jpg", cv_depth_ptr->image);
+    cv::imwrite("/home/nvidia/SLAM/uav_dataset/dataset1/depth/" + depth_image_name + ".png", cv_depth_ptr->image);
         
     // Draw an example circle on the video stream
 //    if (cv_ptr->image.rows > 60 && cv_ptr->image.cols > 60)
